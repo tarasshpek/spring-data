@@ -2,7 +2,6 @@ package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/products")
@@ -21,6 +20,12 @@ public class ProductController {
     public Iterable<Product> getProductsByExample(@RequestBody Product product) {
         Example<Product> example = Example.of(product);
         return repository.findAll(example);
+    }
+
+    @PostMapping("/specification")
+    public Iterable<Product> getProductsByExample(@RequestParam Integer priceFrom) {
+        ProductSpecification specification = new ProductSpecification(priceFrom);
+        return repository.findAll(specification);
     }
 
     @PostMapping
